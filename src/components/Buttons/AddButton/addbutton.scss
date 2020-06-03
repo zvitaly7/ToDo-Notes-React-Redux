@@ -1,0 +1,17 @@
+
+.addButton{
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  padding-right: 3%;
+}
+.btn {
+  cursor: pointer;
+  width: 60px;
+  border-radius: 30px;
+  height: 60px;
+  color: #eef2ff;
+  font-weight: bold;
+  background-color: #ff7100;
+  border: none;
+}

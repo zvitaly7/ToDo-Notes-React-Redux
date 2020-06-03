@@ -1,0 +1,13 @@
+.confirm-modal {
+  padding: 20px;
+  background-color: #eef2ff;
+
+  .confirm-modal-title {
+    margin: 0;
+  }
+
+  .confirm-modal-controls {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

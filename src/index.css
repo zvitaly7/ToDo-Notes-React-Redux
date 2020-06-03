@@ -1,0 +1,12 @@
+@import "~normalize.css";
+
+body {
+
+  font-family: 'FontAwesome';
+
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
