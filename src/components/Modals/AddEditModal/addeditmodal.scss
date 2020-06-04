@@ -29,19 +29,16 @@
 
 
 }
-.edit-note-notvalid {
+.notvalid {
   padding: 5px;
+  color: #ff0200;
   border-radius: 5px;
   overflow: auto;
   border: 1px solid #ff0200;
-  outline: none;
+  outline: #ff0200;
   &:focus {
     border: 1px solid #ff0200;
   }
-}
-
-.notvalid {
-  color: #ff0200;
 }
 
 .edit-note-text {

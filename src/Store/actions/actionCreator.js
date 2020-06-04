@@ -1,7 +1,7 @@
 import React from "react";
 import {ADD_TASK, EDIT_TASK} from "../../constants";
 import {REMOVE_TASK} from "../../constants";
-import {MODAL_SHOW} from "../../constants";
+import {MODAL_SHOW, APPLY_FILTER} from "../../constants";
 import {MODAL_HIDE} from "../../constants";
 import {ConfirmModal} from "../../components/Modals/ConfirmModal/ConfirmModal";
 import {AddOrEdit} from "../../components/Modals/AddEditModal/AddEditModal";
@@ -22,7 +22,10 @@ export const editTask = (id, title, text) => ({
     text,
 });
 
-
+export const applyFilter = title => ({
+    type: APPLY_FILTER,
+    title
+});
 
 
 export const removeTask = id => ({

@@ -14,43 +14,55 @@ export class AddEditModal extends Component {
 
     state = {
         note: this.props.note ? deepClone(this.props.note) : emptyNote,
-        valid: true
+        validTitle: true,
+        validText: true
     };
 
 
-    onChangeStringFieldFactory = fieldName => value => {
+    onTextChange = fieldName => value => {
         this.setState({note: {...this.props.note, [fieldName]: value}})
     };
 
     onTitleChange = fieldName => value => {
-        console.log(value);
-        value.length >= 30 || !value.trim() ? this.setState({
-                valid: false,
-                note: {...this.props.note, [fieldName]: value}
-            }) :
-            this.setState({valid: true, note: {...this.props.note, [fieldName]: value}})
 
+            console.log(value);
+            value.length >= 30 || /^\s+$/.test(value) ? this.setState({
+                    validTitle: false,
+                    note: {...this.props.note, [fieldName]: value}
+                }) :
+                this.setState({validTitle: true, note: {...this.props.note, [fieldName]: value}});
     };
+
+
 
 
     addNote = () => {
         const NoteTitle = this.state.note.title;
         const NoteText = this.state.note.text;
-        if (this.state.valid) {
+
+        if (this.state.validTitle && this.state.validText && NoteTitle || NoteText) {
             const addNote = (id, title, text) => this.props.store.dispatch(addTask(id, title, text));
             addNote(this.props.store.getState().tasks.length + 1, NoteTitle, NoteText);
             this.props.onReject();
         }
+        this.setState({
+            validTitle: false,
+            validText: false
+        })
     };
 
     editNote = () => {
         const NoteTitle = this.state.note.title;
         const NoteText = this.state.note.text;
-        if (this.state.valid) {
+        if (this.state.validTitle && this.state.validText && NoteTitle || NoteText) {
             const editNote = (id, title, text) => this.props.store.dispatch(editTask(id, title, text));
             editNote(this.state.note.id, NoteTitle, NoteText);
             this.props.onReject();
         }
+        this.setState({
+            validTitle: false,
+            validText: false
+        })
     };
 
 
@@ -64,20 +76,21 @@ export class AddEditModal extends Component {
                     <div className='add-modal-title'>Title:</div>
                     <Input
                         type='title'
-                        className={this.state.valid === true ? 'edit-note-input' : 'edit-note-notvalid'}
+                        className={this.state.validTitle === true ? 'edit-note-input' : 'edit-note notvalid'}
                         value={note.title}
                         onChange={this.onTitleChange('title')
                         }
                     />
-                    {this.state.valid === false && <p className='notvalid'>Error: max length 30 </p>}
+                    {this.state.validTitle === false && <p className='notvalid'>Exceeded the string length
+                        of 30 characters, or the string consists of spaces</p>}
                 </label>
                 <label className='edit-note-group'>
                     <div className='add-modal-title'>Your Note:</div>
                     <Input
                         type='text'
-                        className='edit-note-text'
+                        className={this.state.validText === true ? 'edit-note-text' : 'edit-note-text notvalid'}
                         value={note.text}
-                        onChange={this.onChangeStringFieldFactory('text')}
+                        onChange={this.onTextChange('text')}
                     />
                 </label>
                 <div className='add-modal-controls'>

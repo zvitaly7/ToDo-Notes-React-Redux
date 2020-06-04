@@ -16,4 +16,3 @@ const Item = ({title, text, removeTask, id, addOrEdit}) => (
 export default Item;
 
 
-//<i className={isCompleted ? 'mark fa fa-check-circle':'mark_active  fa fa-circle'}/>

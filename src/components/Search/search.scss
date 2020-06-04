@@ -17,3 +17,14 @@
   text-align: center;
 
 }
+
+.find-button{
+  padding: 4px;
+  background-color: #ff770b;
+  border: 1px solid #ff770b;
+  border-radius: 5px;
+  color: #f6f6f6;
+  &:hover {
+    background-color: #494966;
+  }
+}

@@ -5,18 +5,29 @@ import Search from "../../components/Search/Search";
 import AddButton from "../../components/Buttons/AddButton/AddButton";
 import {StoreContextConsumerHOC} from "../../Store/store";
 import {showDeleteConfirmModal} from "../../Store/actions/actionCreator";
-import {showArrOrEditModal} from "../../Store/actions/actionCreator";
+import {showArrOrEditModal, applyFilter} from "../../Store/actions/actionCreator";
 
 
 class Todo extends Component {
 
     state = {
-        tasks: this.props.store.getState()
+        tasks: this.props.store.getState(),
+        searchInput: ''
     };
 
     stateUpdate = () => this.setState({tasks: this.props.store.getState()});
 
+    onChangeSearchInput = value => {
+        this.setState({searchInput: value || ''});
+        console.log(this.state.searchInput);
 
+    };
+
+    onSubmitSearch = () => {
+        const filtering = (filter) => this.props.store.dispatch(applyFilter(filter));
+        filtering(this.state.searchInput);
+        console.log(this.state.searchInput);
+    };
 
     render() {
         const {tasks} = this.state.tasks;
@@ -25,11 +36,11 @@ class Todo extends Component {
         this.props.store.subscribe(this.stateUpdate);
 
         const isTaskExist = tasks && tasks.length > 0;
-
+        console.log(this.state.searchInput);
         return (
 
             <div className="todo-main">
-                <Search/>
+                <Search onChange={this.onChangeSearchInput} value={this.state.searchInput} onSubmit={this.onSubmitSearch}/>
                 {isTaskExist && <List taskList={tasks} removeTask={removeTask} addOrEdit={addOrEditModal}/>}
                 <AddButton addOrEdit={addOrEditModal}/>
 

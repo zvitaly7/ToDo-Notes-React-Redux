@@ -1,4 +1,4 @@
-import {ADD_TASK, REMOVE_TASK, EDIT_TASK} from "../../constants";
+import {ADD_TASK, REMOVE_TASK, EDIT_TASK, APPLY_FILTER} from "../../constants";
 import {TASKS} from "./ExampleStorage";
 
 
@@ -23,6 +23,11 @@ const tasks = (state = TASKS, {id, title, text, type}) => {
                 }
                 return task;
             });
+
+        case APPLY_FILTER:
+            return [...state].filter((task) => task.title.toLowerCase().includes(title.toLowerCase()));
+
+
 
 
         case REMOVE_TASK:
