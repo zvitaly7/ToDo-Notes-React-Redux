@@ -5,7 +5,6 @@ import {MODAL_SHOW, APPLY_FILTER} from "../../constants";
 import {MODAL_HIDE} from "../../constants";
 import {ConfirmModal} from "../../components/Modals/ConfirmModal/ConfirmModal";
 import {AddOrEdit} from "../../components/Modals/AddEditModal/AddEditModal";
-import {store} from "../store";
 
 
 export const addTask = (id, title, text) => ({
@@ -40,13 +39,13 @@ export const showArrOrEditModal = (note) => dispatch => dispatch(showModal({
     />
 }));
 
-
 export const showDeleteConfirmModal = (id, title) => dispatch => dispatch(showModal({
     element: <ConfirmModal
         title={`Delete note: ${title}`}
         question='Are you sure you want to delete this note?'
         onConfirm={async () => {
             await dispatch(removeTask(id));
+            dispatch(applyFilter());
             dispatch(hideModal());
         }}
         onReject={() => dispatch(hideModal())}
@@ -63,4 +62,3 @@ export const showModal = modalData => ({
 export const hideModal = () => ({
     type: MODAL_HIDE
 });
-
