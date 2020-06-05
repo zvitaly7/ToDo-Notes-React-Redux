@@ -2,7 +2,7 @@ import {ADD_TASK, REMOVE_TASK, EDIT_TASK, APPLY_FILTER} from "../../constants";
 import {TASKS} from "./ExampleStorage";
 
 
-const tasks = (state = TASKS, {id, title, text, type}) => {
+const tasks = (state = {allTasks: TASKS, filtered: TASKS}, {id, title, text, type}) => {
 
     switch (type) {
         case ADD_TASK:
@@ -25,16 +25,17 @@ const tasks = (state = TASKS, {id, title, text, type}) => {
             });
 
         case APPLY_FILTER:
+            if (!title) {
+                return state;
+            }
             return [...state].filter((task) => task.title.toLowerCase().includes(title.toLowerCase()));
 
 
-
-
         case REMOVE_TASK:
-            return [...state].filter(task => task.id !== id);
+            return [...state.allTasks].filter(task => task.id !== id);
 
         default:
-            return state;
+            return state.allTasks;
     }
 };
 

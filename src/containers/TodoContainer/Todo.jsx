@@ -26,7 +26,7 @@ class Todo extends Component {
     onSubmitSearch = () => {
         const filtering = (filter) => this.props.store.dispatch(applyFilter(filter));
         filtering(this.state.searchInput);
-        console.log(this.state.searchInput);
+        console.log(!this.state.searchInput);
     };
 
     render() {
@@ -36,7 +36,7 @@ class Todo extends Component {
         this.props.store.subscribe(this.stateUpdate);
 
         const isTaskExist = tasks && tasks.length > 0;
-        console.log(this.state.searchInput);
+        console.log(tasks);
         return (
 
             <div className="todo-main">
