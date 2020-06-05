@@ -6,7 +6,7 @@ import {emptyNote} from "../../../constants";
 import './addeditmodal.scss'
 import {StoreContextConsumerHOC} from "../../../Store/store";
 import {Button} from "../../Buttons/SimpleButton/Button";
-import {addTask, showDeleteConfirmModal} from "../../../Store/actions/actionCreator";
+import {addTask, applyFilter} from "../../../Store/actions/actionCreator";
 import {editTask} from "../../../Store/actions/actionCreator";
 
 
@@ -33,15 +33,16 @@ export class AddEditModal extends Component {
                 this.setState({validTitle: true, note: {...this.props.note, [fieldName]: value}});
     };
 
-
-
-
     addNote = () => {
         const NoteTitle = this.state.note.title;
         const NoteText = this.state.note.text;
 
+        // todo: one line can't include mix of && and ||. Check your condition
         if (this.state.validTitle && this.state.validText && NoteTitle || NoteText) {
-            const addNote = (id, title, text) => this.props.store.dispatch(addTask(id, title, text));
+            const addNote = (id, title, text) => {
+                this.props.store.dispatch(addTask(id, title, text));
+                this.props.store.dispatch(applyFilter());
+            };
             addNote(this.props.store.getState().tasks.length + 1, NoteTitle, NoteText);
             this.props.onReject();
         }
@@ -54,8 +55,12 @@ export class AddEditModal extends Component {
     editNote = () => {
         const NoteTitle = this.state.note.title;
         const NoteText = this.state.note.text;
+        // todo: one line can't include mix of && and ||. Check your condition
         if (this.state.validTitle && this.state.validText && NoteTitle || NoteText) {
-            const editNote = (id, title, text) => this.props.store.dispatch(editTask(id, title, text));
+            const editNote = (id, title, text) => {
+                this.props.store.dispatch(editTask(id, title, text));
+                this.props.store.dispatch(applyFilter());
+            };
             editNote(this.state.note.id, NoteTitle, NoteText);
             this.props.onReject();
         }
