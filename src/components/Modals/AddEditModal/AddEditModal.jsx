@@ -6,7 +6,7 @@ import {emptyNote} from "../../../constants";
 import './addeditmodal.scss'
 import {StoreContextConsumerHOC} from "../../../Store/store";
 import {Button} from "../../Buttons/SimpleButton/Button";
-import {addTask, showDeleteConfirmModal} from "../../../Store/actions/actionCreator";
+import {addTask, applyFilter} from "../../../Store/actions/actionCreator";
 import {editTask} from "../../../Store/actions/actionCreator";
 
 
@@ -25,7 +25,7 @@ export class AddEditModal extends Component {
 
     onTitleChange = fieldName => value => {
 
-            console.log(value);
+            console.log(this.props.note);
             value.length >= 30 || /^\s+$/.test(value) ? this.setState({
                     validTitle: false,
                     note: {...this.props.note, [fieldName]: value}
@@ -41,7 +41,10 @@ export class AddEditModal extends Component {
         const NoteText = this.state.note.text;
 
         if (this.state.validTitle && this.state.validText && NoteTitle || NoteText) {
-            const addNote = (id, title, text) => this.props.store.dispatch(addTask(id, title, text));
+            const addNote = (id, title, text) => {
+                this.props.store.dispatch(addTask(id, title, text));
+                this.props.store.dispatch(applyFilter());
+            };
             addNote(this.props.store.getState().tasks.length + 1, NoteTitle, NoteText);
             this.props.onReject();
         }
@@ -55,7 +58,10 @@ export class AddEditModal extends Component {
         const NoteTitle = this.state.note.title;
         const NoteText = this.state.note.text;
         if (this.state.validTitle && this.state.validText && NoteTitle || NoteText) {
-            const editNote = (id, title, text) => this.props.store.dispatch(editTask(id, title, text));
+            const editNote = (id, title, text) => {
+                this.props.store.dispatch(editTask(id, title, text));
+                this.props.store.dispatch(applyFilter());
+            };
             editNote(this.state.note.id, NoteTitle, NoteText);
             this.props.onReject();
         }
@@ -68,7 +74,7 @@ export class AddEditModal extends Component {
 
     render() {
         const {note} = this.state;
-        console.log(this.state);
+        console.log(this.props.note);
         return (
             <div className='add-modal'>
                 <label className='edit-note-group'>

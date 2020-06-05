@@ -10,12 +10,25 @@ import {showArrOrEditModal, applyFilter} from "../../Store/actions/actionCreator
 
 class Todo extends Component {
 
-    state = {
-        tasks: this.props.store.getState(),
-        searchInput: ''
-    };
+    constructor(props) {
+        super(props);
 
-    stateUpdate = () => this.setState({tasks: this.props.store.getState()});
+        const {tasks} = this.props.store.getState();
+        this.state = {
+            tasks: tasks.filtered,
+            searchInput: '',
+        };
+
+        this.props.store.subscribe(this.stateUpdate);
+    }
+
+
+    stateUpdate = () => {
+        const {tasks} = this.props.store.getState();
+        this.setState({
+            tasks: tasks.filtered
+        });
+    };
 
     onChangeSearchInput = value => {
         this.setState({searchInput: value || ''});
@@ -30,17 +43,17 @@ class Todo extends Component {
     };
 
     render() {
-        const {tasks} = this.state.tasks;
+        const {tasks} = this.state;
         const removeTask = (id, title) => this.props.store.dispatch(showDeleteConfirmModal(id, title));
-        const addOrEditModal = (id) => this.props.store.dispatch(showArrOrEditModal(tasks[id-1]));
-        this.props.store.subscribe(this.stateUpdate);
+        const addOrEditModal = (id) => this.props.store.dispatch(showArrOrEditModal(tasks[id - 1]));
+
 
         const isTaskExist = tasks && tasks.length > 0;
-        console.log(tasks);
         return (
 
             <div className="todo-main">
-                <Search onChange={this.onChangeSearchInput} value={this.state.searchInput} onSubmit={this.onSubmitSearch}/>
+                <Search onChange={this.onChangeSearchInput} value={this.state.searchInput}
+                        onSubmit={this.onSubmitSearch}/>
                 {isTaskExist && <List taskList={tasks} removeTask={removeTask} addOrEdit={addOrEditModal}/>}
                 <AddButton addOrEdit={addOrEditModal}/>
 
