@@ -1,7 +1,6 @@
 import React from 'react';
 
 
-
 export const Input = props => {
     const onChangeInternal = e =>
         props.onChange && props.onChange(e.target.value);
@@ -9,8 +8,7 @@ export const Input = props => {
     const onBlurInternal = e =>
         props.onBlur && props.onBlur(e.target.value);
 
-    return props.type === "text"?
-
+    return props.type === "text" ?
         <textarea
             {...props}
             onBlur={onBlurInternal}
@@ -26,6 +24,4 @@ export const Input = props => {
         >
             {props.children}
         </input>
-
-
 };

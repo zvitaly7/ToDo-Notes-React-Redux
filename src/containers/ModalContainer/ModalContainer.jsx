@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import {StoreContextConsumerHOC} from "../../Store/store";
 import {selectLastModal} from "../../Store/reducers/modal";
 

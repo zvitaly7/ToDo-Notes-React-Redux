@@ -1,80 +1,94 @@
 import React, {Component} from "react";
-
 import {Input} from "../../Input/Input";
 import {emptyNote} from "../../../constants";
-
 import './addeditmodal.scss'
 import {StoreContextConsumerHOC} from "../../../Store/store";
 import {Button} from "../../Buttons/SimpleButton/Button";
 import {addTask, applyFilter} from "../../../Store/actions/actionCreator";
 import {editTask} from "../../../Store/actions/actionCreator";
 
-
 export class AddEditModal extends Component {
+    constructor(props) {
+        super(props);
 
-    state = {
-        note: this.props.note ? deepClone(this.props.note) : emptyNote,
-        validTitle: true,
-        validText: true
+        this.state = {
+            note: this.props.note ? deepClone(this.props.note) : emptyNote,
+            validTitle: true,
+            validText: true
+        };
+
+    }
+
+    onTextChange = value => {
+        if (!this.state.validText) {
+            this.setState({
+                validText: true
+            })
+        }
+        this.setState({note: {...this.state.note, text: value}})
     };
 
+    onTitleChange = value => {
 
-    onTextChange = fieldName => value => {
-        this.setState({note: {...this.props.note, [fieldName]: value}})
+        value.length >= 30 || /^\s+$/.test(value) ? this.setState({
+                validTitle: false,
+                note: {...this.props.note, title: value}
+            }) :
+            this.setState({validTitle: true, note: {...this.props.note, title: value}});
     };
-
-    onTitleChange = fieldName => value => {
-
-            console.log(this.props.note);
-            value.length >= 30 || /^\s+$/.test(value) ? this.setState({
-                    validTitle: false,
-                    note: {...this.props.note, [fieldName]: value}
-                }) :
-                this.setState({validTitle: true, note: {...this.props.note, [fieldName]: value}});
-    };
-
-
-
 
     addNote = () => {
         const NoteTitle = this.state.note.title;
         const NoteText = this.state.note.text;
+        if (NoteTitle || NoteText) {
+            if (this.state.validTitle && this.state.validText) {
+                const addNote = (id, title, text) => {
+                    this.props.store.dispatch(addTask(id, title, text));
+                    this.props.store.dispatch(applyFilter());
+                };
+                addNote(this.props.store.getState().tasks.allTasks.length + 1, NoteTitle, NoteText);
+                this.props.onReject();
+            }
+            return this.setState({
+                validTitle: this.state.validTitle,
+                validText: true
 
-        if (this.state.validTitle && this.state.validText && NoteTitle || NoteText) {
-            const addNote = (id, title, text) => {
-                this.props.store.dispatch(addTask(id, title, text));
-                this.props.store.dispatch(applyFilter());
-            };
-            addNote(this.props.store.getState().tasks.length + 1, NoteTitle, NoteText);
-            this.props.onReject();
+            })
         }
         this.setState({
             validTitle: false,
             validText: false
-        })
+        });
     };
 
     editNote = () => {
         const NoteTitle = this.state.note.title;
         const NoteText = this.state.note.text;
-        if (this.state.validTitle && this.state.validText && NoteTitle || NoteText) {
-            const editNote = (id, title, text) => {
-                this.props.store.dispatch(editTask(id, title, text));
-                this.props.store.dispatch(applyFilter());
-            };
-            editNote(this.state.note.id, NoteTitle, NoteText);
-            this.props.onReject();
+        if (NoteTitle || NoteText) {
+            if ((this.state.validTitle && this.state.validText)) {
+                const editNote = (id, title, text) => {
+                    this.props.store.dispatch(editTask(id, title, text));
+                    this.props.store.dispatch(applyFilter());
+                };
+                editNote(this.state.note.id, NoteTitle, NoteText);
+                this.props.onReject();
+            }
+            return this.setState({
+                validTitle: this.state.validTitle,
+
+            })
         }
         this.setState({
             validTitle: false,
             validText: false
-        })
-    };
+        });
 
+
+    };
 
     render() {
         const {note} = this.state;
-        console.log(this.props.note);
+        console.log(this.state);
         return (
             <div className='add-modal'>
                 <label className='edit-note-group'>
@@ -84,7 +98,7 @@ export class AddEditModal extends Component {
                         type='title'
                         className={this.state.validTitle === true ? 'edit-note-input' : 'edit-note notvalid'}
                         value={note.title}
-                        onChange={this.onTitleChange('title')
+                        onChange={this.onTitleChange
                         }
                     />
                     {this.state.validTitle === false && <p className='notvalid'>Exceeded the string length
@@ -96,7 +110,7 @@ export class AddEditModal extends Component {
                         type='text'
                         className={this.state.validText === true ? 'edit-note-text' : 'edit-note-text notvalid'}
                         value={note.text}
-                        onChange={this.onTextChange('text')}
+                        onChange={this.onTextChange}
                     />
                 </label>
                 <div className='add-modal-controls'>
@@ -108,10 +122,8 @@ export class AddEditModal extends Component {
                 </div>
             </div>
         );
-
     }
-
-};
+}
 
 export const AddOrEdit = StoreContextConsumerHOC(AddEditModal);
 
@@ -126,6 +138,5 @@ export function deepClone(obj) {
             }
         }
     }
-
     return recipient;
 }

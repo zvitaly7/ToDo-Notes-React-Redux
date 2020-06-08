@@ -32,14 +32,11 @@ class Todo extends Component {
 
     onChangeSearchInput = value => {
         this.setState({searchInput: value || ''});
-        console.log(this.state.searchInput);
-
     };
 
     onSubmitSearch = () => {
         const filtering = (filter) => this.props.store.dispatch(applyFilter(filter));
         filtering(this.state.searchInput);
-        console.log(!this.state.searchInput);
     };
 
     render() {

@@ -6,8 +6,6 @@ import {MODAL_HIDE} from "../../constants";
 import {ConfirmModal} from "../../components/Modals/ConfirmModal/ConfirmModal";
 import {AddOrEdit} from "../../components/Modals/AddEditModal/AddEditModal";
 
-
-
 export const addTask = (id, title, text) => ({
     type: ADD_TASK,
     id,
@@ -57,8 +55,8 @@ export const showDeleteConfirmModal = (id, title) => dispatch => dispatch(showMo
 export const hideModalAction = () => dispatch => dispatch(hideModal());
 
 export const showModal = modalData => ({
-   type: MODAL_SHOW,
-   modalData
+    type: MODAL_SHOW,
+    modalData
 });
 
 export const hideModal = () => ({

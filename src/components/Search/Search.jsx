@@ -4,7 +4,7 @@ import {Input} from "../Input/Input";
 import {Button} from "../Buttons/SimpleButton/Button";
 
 
-const Search = ({onChange , value, onSubmit}) => (
+const Search = ({onChange, value, onSubmit}) => (
     <div className='search'>
         <i className='search_logo fa fa-search'/>
         <Input

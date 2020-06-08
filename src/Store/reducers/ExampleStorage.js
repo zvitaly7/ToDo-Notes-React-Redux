@@ -18,7 +18,7 @@ export const TASKS = [
     {
         id: 3,
         title: "Dinner",
-        text:"hello hello hello  " +
+        text: "hello hello hello  " +
             "hellohellohello hellohellohellohellohellohellohellohello hellohellohello hellohellohello" +
             "hellohellohellohellohellohello hellohellohello hello hello ",
 
@@ -42,7 +42,7 @@ export const TASKS = [
     {
         id: 6,
         title: "I know React, maybe",
-        text:"hello hello hello  " +
+        text: "hello hello hello  " +
             "hellohellohello hellohellohellohellohellohellohellohello hellohellohello hellohellohello" +
             "hellohellohellohellohellohello hellohellohello hello hello ",
 
@@ -66,7 +66,7 @@ export const TASKS = [
     {
         id: 9,
         title: "Hello my name is Boris",
-        text:"hello hello hello  " +
+        text: "hello hello hello  " +
             "hellohellohello hellohellohellohellohellohellohellohello hellohellohello hellohellohello" +
             "hellohellohellohellohellohello hellohellohello hello hello hellohellohello hellohellohellohellohellohellohellohello hellohellohello hellohellohello" +
             "hellohellohello hellohellohellohellohellohellohellohello hellohellohello hellohellohello" +
